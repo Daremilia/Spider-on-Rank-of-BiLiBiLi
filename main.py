@@ -7,13 +7,6 @@ from Processor import Processor_rank
 import redis
 
 
-def consumer3(r, q2):
-    while 1:
-        q2.get()
-        print(time.time())
-        time.sleep(1)
-
-
 def consumer2(q2: Queue):
     pool = redis.ConnectionPool(host='localhost', port=6379, db=1, decode_responses=True)
     r = redis.Redis(connection_pool=pool)
@@ -46,11 +39,6 @@ def producer(url_li: list, q: Queue):
 
 
 if __name__ == '__main__':
-    pool = redis.ConnectionPool(host='localhost', port=6379, db=1, decode_responses=True)
-    r = redis.Redis(connection_pool=pool)
-    li1 = r.get("B站排行榜_视频_url").splitlines()
-    li2 = r.get("B站排行榜_连载动画_url").splitlines()
-    li3 = r.get("B站排行榜_其他_url").splitlines()
     url_li = [*li1, *li2, *li3]
 
     queue1 = Queue()
